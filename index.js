@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Steal a Brainrot</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#050508;color:#fff;font-family:'Segoe UI',sans-serif;overflow-x:hidden}
+.bg{position:fixed;top:0;left:0;width:100%;height:100%;background:repeating-linear-gradient(0deg,rgba(0,243,255,.03)1px,transparent 1px),repeating-linear-gradient(90deg,rgba(0,243,255,.03)1px,transparent 1px);background-size:50px 50px;z-index:0;pointer-events:none}
+header{position:relative;z-index:10;text-align:center;padding:40px 20px}
+h1{font-size:clamp(2rem,5vw,4rem);text-transform:uppercase;letter-spacing:5px;background:linear-gradient(90deg,#00f3ff,#ff00ff,#39ff14);-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:g 5s ease infinite;background-size:300% 300%;filter:drop-shadow(0 0 20px rgba(0,243,255,.5))}
+@keyframes g{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.sub{color:#00f3ff;text-shadow:0 0 15px #00f3ff;letter-spacing:8px;font-size:1.1rem;margin-top:10px}
+.stats{display:flex;justify-content:center;gap:20px;margin-top:20px;flex-wrap:wrap}
+.stat{background:rgba(255,255,255,.05);border:1px solid rgba(0,243,255,.3);padding:10px 20px;border-radius:10px}
+.stat small{display:block;color:#00f3ff;font-size:.65rem;text-transform:uppercase;letter-spacing:2px}
+.stat span{font-weight:700}
+.filters{display:flex;justify-content:center;gap:10px;padding:20px;flex-wrap:wrap;position:relative;z-index:10}
+.fbtn{background:transparent;border:2px solid #00f3ff;color:#00f3ff;padding:8px 18px;border-radius:20px;cursor:pointer;font-size:.8rem;text-transform:uppercase;letter-spacing:1px;transition:.3s}
+.fbtn:hover,.fbtn.active{background:#00f3ff;color:#000;box-shadow:0 0 20px #00f3ff}
+.fbtn.r{border-color:#39ff14;color:#39ff14}
+.fbtn.r:hover,.fbtn.r.active{background:#39ff14;color:#000;box-shadow:0 0 20px #39ff14}
+.fbtn.e{border-color:#bf00ff;color:#bf00ff}
+.fbtn.e:hover,.fbtn.e.active{background:#bf00ff;color:#fff;box-shadow:0 0 20px #bf00ff}
+.fbtn.l{border-color:#ff6600;color:#ff6600}
+.fbtn.l:hover,.fbtn.l.active{background:#ff6600;color:#fff;box-shadow:0 0 20px #ff6600}
+.fbtn.m{border-color:#ff1493;color:#ff1493}
+.fbtn.m:hover,.fbtn.m.active{background:#ff1493;color:#fff;box-shadow:0 0 20px #ff1493}
+.fbtn.g{border-color:#ffff00;color:#ffff00}
+.fbtn.g:hover,.fbtn.g.active{background:#ffff00;color:#000;box-shadow:0 0 20px #ffff00}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;padding:20px 40px 60px;max-width:1400px;margin:0 auto;position:relative;z-index:10}
+.card{background:#0c0c14;border-radius:20px;padding:25px;cursor:pointer;transition:.4s;border:1px solid rgba(255,255,255,.05);position:relative;overflow:hidden;animation:ca .6s ease backwards}
+.card:hover{transform:translateY(-10px) scale(1.02);border-color:var(--c);box-shadow:0 0 30px var(--c2)}
+.card::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:conic-gradient(from 0deg,transparent,var(--c),transparent 30%);animation:br 4s linear infinite;opacity:0;transition:opacity .3s}
+.card:hover::before{opacity:.2}
+@keyframes br{100%{transform:rotate(360deg)}}
+@keyframes ca{0%{opacity:0;transform:translateY(30px)}}
+.badge{display:inline-block;padding:4px 12px;border-radius:15px;font-size:.65rem;text-transform:uppercase;letter-spacing:2px;margin-bottom:15px;font-weight:700}
+.emoji{font-size:4rem;text-align:center;margin:10px 0;filter:drop-shadow(0 0 15px var(--c));animation:ef 3s ease-in-out infinite}
+@keyframes ef{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.name{text-align:center;font-size:1.1rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;color:var(--c);text-shadow:0 0 10px var(--c)}
+.desc{text-align:center;font-size:.8rem;color:rgba(255,255,255,.5);margin-bottom:15px;font-style:italic}
+.srow{display:flex;justify-content:space-between;padding:10px 0;border-top:1px solid rgba(255,255,255,.1);font-size:.8rem}
+.srow .s{text-align:center}
+.srow .s small{display:block;color:rgba(255,255,255,.4);font-size:.6rem;text-transform:uppercase;letter-spacing:1px}
+.srow .s span{color:var(--c);font-weight:700}
+.hint{text-align:center;font-size:.65rem;color:rgba(255,255,255,.3);margin-top:12px;text-transform:uppercase;letter-spacing:2px}
+.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.9);z-index:1000;display:none;justify-content:center;align-items:center;padding:20px;opacity:0;transition:opacity .3s}
+.modal.active{display:flex;opacity:1}
+.mcontent{background:#0c0c14;border-radius:25px;padding:40px;max-width:500px;width:100%;border:2px solid var(--c);box-shadow:0 0 50px var(--c2);animation:mp .4s ease;position:relative}
+@keyframes mp{0%{transform:scale(.5);opacity:0}}
+.mclose{position:absolute;top:15px;right:20px;background:none;border:none;color:var(--c);font-size:2rem;cursor:pointer;transition:.3s}
+.mclose:hover{color:#ff00ff;transform:rotate(90deg)}
+.memoji{font-size:5rem;text-align:center;margin-bottom:15px;animation:mb 2s ease-in-out infinite;filter:drop-shadow(0 0 20px var(--c))}
+@keyframes mb{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+.mtitle{text-align:center;font-size:1.4rem;text-transform:uppercase;letter-spacing:2px;margin-bottom:5px;color:var(--c);text-shadow:0 0 20px var(--c)}
+.mrare{text-align:center;font-size:.8rem;text-transform:uppercase;letter-spacing:3px;margin-bottom:25px;color:var(--c)}
+.steps{background:rgba(0,0,0,.4);border-radius:15px;padding:25px}
+.step{display:flex;gap:15px;margin-bottom:18px;padding:15px;background:rgba(255,255,255,.03);border-radius:12px;border-left:3px solid var(--c);transition:.3s}
+.step:hover{transform:translateX(5px);background:rgba(255,255,255,.06)}
+.step:last-child{margin-bottom:0}
+.snum{font-size:1.5rem;font-weight:900;color:var(--c);text-shadow:0 0 15px var(--c);min-width:35px}
+.stext{font-size:.95rem;line-height:1.5;color:rgba(255,255,255,.85)}
+.stext strong{color:var(--c);text-shadow:0 0 10px var(--c)}
+.rbx{margin-top:25px;text-align:center}
+.rbx a{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#00b2ff,#0066cc);color:#fff;text-decoration:none;padding:15px 30px;border-radius:50px;font-weight:700;text-transform:uppercase;letter-spacing:1px;box-shadow:0 0 30px rgba(0,178,255,.4);transition:.3s;border:2px solid rgba(255,255,255,.2)}
+.rbx a:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 0 50px rgba(0,178,255,.6);border-color:#fff}
+.mfoot{text-align:center;margin-top:20px;font-size:.7rem;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:3px}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:#050508}
+::-webkit-scrollbar-thumb{background:#00f3ff;border-radius:3px}
+@media(max-width:768px){.grid{padding:15px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<<header>
+<h1>Steal a Brainrot</h1>
+<p class="sub">Brainrot Collection</p>
+<div class="stats">
+<div class="stat"><small>Total</small><span>30</span></div>
+<div class="stat"><small>Rarities</small><span>6</span></div>
+<div class="stat"><small>Status</small><span style="color:#39ff14">LIVE</span></div>
+</div>
+</header>
+<div class="filters">
+<button class="fbtn active" data-f="all">All</button>
+<button class="fbtn" data-f="common">Common</button>
+<button class="fbtn r" data-f="rare">Rare</button>
+<button class="fbtn e" data-f="epic">Epic</button>
+<button class="fbtn l" data-f="legendary">Legendary</button>
+<button class="fbtn m" data-f="mythic">Mythic</button>
+<button class="fbtn g" data-f="god">God</button>
+</div>
+<div class="grid" id="grid"></div>
+<div class="modal" id="modal">
+<div class="mcontent" id="mcontent">
+<button class="mclose" id="mclose">&times;</button>
+<div class="memoji" id="memoji"></div>
+<h2 class="mtitle" id="mtitle"></h2>
+<p class="mrare" id="mrare"></p>
+<div class="steps">
+<div class="step"><div class="snum">1</div><div class="stext"><strong>Add me on Roblox!</strong><br>Click the button below to visit my profile and send a friend request. Tell me which brainrot you want!</div></div>
+<div class="step"><div class="snum">2</div><div class="stext"><strong>Patience is power!</strong><br>Hang tight for just <strong>1-4 minutes</strong> while I prepare your legendary brainrot delivery!</div></div>
+<div class="step"><div class="snum">3</div><div class="stext"><strong>Receive & Enjoy!</strong><br>Your brainrot has arrived! Equip it and show the server who's boss!</div></div>
+</div>
+<div class="rbx"><a href="https://www.roblox.com.ml/users/168742461464/profile" target="_blank">🎮 Roblox Profile</a></div>
+<p class="mfoot">Press ESC or click outside to close</p>
+</div>
+</div>
+<script>
+const b=[
+{n:"Noobini Pizzanini",r:"common",e:"🍕",d:"The classic pizza noob",i:"$1/s",p:"$25"},
+{n:"Lirilì Larilà",r:"common",e:"🦎",d:"Mysterious lizard creature",i:"$3/s",p:"$250"},
+{n:"Tim Cheese",r:"common",e:"🧀",d:"The cheesy legend himself",i:"$5/s",p:"$500"},
+{n:"Pipi Kiwi",r:"common",e:"🥝",d:"Tiny but mighty kiwi",i:"$13/s",p:"$1.5K"},
+{n:"Trippi Troppi",r:"rare",e:"🦐",d:"Triple threat shrimp",i:"$20/s",p:"$2K"},
+{n:"Gangster Footera",r:"rare",e:"🦶",d:"Foot of the streets",i:"$30/s",p:"$4K"},
+{n:"Bandito Bobritto",r:"rare",e:"🦝",d:"Masked bandit raccoon",i:"$35/s",p:"$4K"},
+{n:"Boneca Ambalabu",r:"rare",e:"🪆",d:"The nesting doll mystery",i:"$40/s",p:"$5K"},
+{n:"Cacto Hipopotamo",r:"rare",e:"🌵",d:"Spiky hippo hybrid",i:"$50/s",p:"$6.5K"},
+{n:"Ta Ta Ta Ta Sahur",r:"rare",e:"🥁",d:"Drumming into your soul",i:"$55/s",p:"$7.5K"},
+{n:"Cappuccino Assassino",r:"epic",e:"☕",d:"Deadly coffee brew",i:"$75/s",p:"$10K"},
+{n:"Brr Brr Patapim",r:"epic",e:"🦍",d:"The frozen ape warrior",i:"$100/s",p:"$15K"},
+{n:"Trulimero Trulicina",r:"epic",e:"🎭",d:"Masked trickster duo",i:"$125/s",p:"$20K"},
+{n:"Bambini Crostini",r:"epic",e:"👶",d:"Baby bread warriors",i:"$135/s",p:"$22.5K"},
+{n:"Malame Amarele",r:"epic",e:"🍋",d:"Sour but sweet lemon",i:"$140/s",p:"$23.5K"},
+{n:"Perochello Lemonchello",r:"epic",e:"🍋",d:"Citrus overlord",i:"$160/s",p:"$27.5K"},
+{n:"Bri Bri Bicus Bombicus",r:"epic",e:"💣",d:"Explosive beehive",i:"$175/s",p:"$30K"},
+{n:"Salamino Penguino",r:"epic",e:"🐧",d:"Salami penguin fusion",i:"$250/s",p:"$40K"},
+{n:"Chimpanzini Bananini",r:"legendary",e:"🐒",d:"Banana monkey king",i:"$300/s",p:"$50K"},
+{n:"Tirilikalika Tirilikalako",r:"legendary",e:"🎪",d:"Circus ringmaster chaos",i:"$450/s",p:"$75K"},
+{n:"Ballerina Cappuccina",r:"legendary",e:"🩰",d:"Dancing coffee queen",i:"$500/s",p:"$100K"},
+{n:"Glorbo Fruttodrillo",r:"legendary",e:"🐊",d:"Fruit crocodile beast",i:"$750/s",p:"$200K"},
+{n:"Blueberrinni Octopusini",r:"legendary",e:"🐙",d:"Berry tentacle terror",i:"$1K/s",p:"$250K"},
+{n:"Sigma Boy",r:"legendary",e:"😎",d:"The sigma grindset",i:"$1.3K/s",p:"$325K"},
+{n:"Sigma Girl",r:"legendary",e:"💅",d:"Sigma female energy",i:"$1.8K/s",p:"$340K"},
+{n:"Bombardiro Crocodilo",r:"mythic",e:"🐊",d:"Bomb-dropping crocodile",i:"$2.5K/s",p:"$500K"},
+{n:"Brutto Gialutto",r:"mythic",e:"👹",d:"Ugly yellow demon",i:"$3K/s",p:"$600K"},
+{n:"Gorillo Subwoofero",r:"mythic",e:"🦍",d:"Bass-boosted gorilla",i:"$7.7K/s",p:"$2.7M"},
+{n:"Matteo",r:"god",e:"🌳",d:"The tree god himself",i:"$50K/s",p:"$10M"},
+{n:"Tralalero Tralala",r:"god",e:"🎵",d:"The musical maestro",i:"$50K/s",p:"$10M"}
+];
+const rc={common:'#00f3ff',rare:'#39ff14',epic:'#bf00ff',legendary:'#ff6600',mythic:'#ff1493',god:'#ffff00'};
+const rn={common:'Common',rare:'Rare',epic:'Epic',legendary:'Legendary',mythic:'Mythic',god:'Brainrot God'};
+function mkCard(x,idx){
+const c=document.createElement('div');c.className='card '+x.r;c.style.cssText='--c:'+rc[x.r]+';--c2:'+rc[x.r]+'40;animation-delay:'+(idx*.04)+'s';c.dataset.r=x.r;
+c.innerHTML='<div class="badge" style="background:'+rc[x.r]+'15;color:'+rc[x.r]+';border:1px solid '+rc[x.r]+'40">'+rn[x.r]+'</div><div class="emoji">'+x.e+'</div><div class="name">'+x.n+'</div><div class="desc">'+x.d+'</div><div class="srow"><div class="s"><small>Income</small><span>'+x.i+'</span></div><div class="s"><small>Price</small><span>'+x.p+'</span></div></div><div class="hint">Click to Claim</div>';
+c.addEventListener('click',()=>openM(x));return c;
+}
+function render(f='all'){const g=document.getElementById('grid');g.innerHTML='';const fl=f==='all'?b:b.filter(x=>x.r===f);fl.forEach((x,i)=>g.appendChild(mkCard(x,i)));}
+function openM(x){const m=document.getElementById('modal'),mc=document.getElementById('mcontent');const col=rc[x.r];document.getElementById('memoji').textContent=x.e;document.getElementById('mtitle').textContent=x.n;document.getElementById('mtitle').style.cssText='color:'+col+';text-shadow:0 0 20px '+col;document.getElementById('mrare').textContent=rn[x.r];document.getElementById('mrare').style.cssText='color:'+col;mc.style.cssText='border-color:'+col+';box-shadow:0 0 50px '+col+'40;--c:'+col+';--c2:'+col+'40';m.classList.add('active');}
+function closeM(){document.getElementById('modal').classList.remove('active');}
+document.querySelectorAll('.fbtn').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');render(btn.dataset.f);}));
+document.getElementById('mclose').addEventListener('click',closeM);document.getElementById('modal').addEventListener('click',e=>{if(e.target===document.getElementById('modal'))closeM();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM();});
+render();
+</script>
+</body>
+</html>
