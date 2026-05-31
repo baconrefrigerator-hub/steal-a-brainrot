@@ -29,6 +29,8 @@ h1{font-size:clamp(2rem,5vw,4rem);text-transform:uppercase;letter-spacing:5px;ba
 .fbtn.m:hover,.fbtn.m.active{background:#ff1493;color:#fff;box-shadow:0 0 20px #ff1493}
 .fbtn.g{border-color:#ffff00;color:#ffff00}
 .fbtn.g:hover,.fbtn.g.active{background:#ffff00;color:#000;box-shadow:0 0 20px #ffff00}
+.fbtn.s{border-color:#ff0040;color:#ff0040}
+.fbtn.s:hover,.fbtn.s.active{background:#ff0040;color:#fff;box-shadow:0 0 20px #ff0040}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;padding:20px 40px 60px;max-width:1400px;margin:0 auto;position:relative;z-index:10}
 .card{background:#0c0c14;border-radius:20px;padding:25px;cursor:pointer;transition:.4s;border:1px solid rgba(255,255,255,.05);position:relative;overflow:hidden;animation:ca .6s ease backwards}
 .card:hover{transform:translateY(-10px) scale(1.02);border-color:var(--c);box-shadow:0 0 30px var(--c2)}
@@ -85,8 +87,8 @@ h1{font-size:clamp(2rem,5vw,4rem);text-transform:uppercase;letter-spacing:5px;ba
 <h1>Steal a Brainrot</h1>
 <p class="sub">Brainrot Collection</p>
 <div class="stats">
-<div class="stat"><small>Total</small><span>30</span></div>
-<div class="stat"><small>Rarities</small><span>6</span></div>
+<div class="stat"><small>Total</small><span>130</span></div>
+<div class="stat"><small>Rarities</small><span>7</span></div>
 <div class="stat"><small>Status</small><span style="color:#39ff14">LIVE</span></div>
 </div>
 </header>
@@ -98,6 +100,7 @@ h1{font-size:clamp(2rem,5vw,4rem);text-transform:uppercase;letter-spacing:5px;ba
 <button class="fbtn l" data-f="legendary">Legendary</button>
 <button class="fbtn m" data-f="mythic">Mythic</button>
 <button class="fbtn g" data-f="god">God</button>
+<button class="fbtn s" data-f="secret">Secret</button>
 </div>
 <div class="grid" id="grid"></div>
 <div class="modal" id="modal">
@@ -150,11 +153,127 @@ const b=[
 {n:"Bombardiro Crocodilo",r:"mythic",e:"🐊",d:"Bomb-dropping crocodile",i:"$2.5K/s",p:"$500K"},
 {n:"Brutto Gialutto",r:"mythic",e:"👹",d:"Ugly yellow demon",i:"$3K/s",p:"$600K"},
 {n:"Gorillo Subwoofero",r:"mythic",e:"🦍",d:"Bass-boosted gorilla",i:"$7.7K/s",p:"$2.7M"},
+{n:"Avocadorilla",r:"mythic",e:"🥑",d:"Avocado gorilla beast",i:"$7K/s",p:"$2M"},
+{n:"Tob Tobi Tobi",r:"mythic",e:"🤖",d:"Robotic triple threat",i:"$8.5K/s",p:"$3.2M"},
+{n:"Ganganzelli Trulala",r:"mythic",e:"🎸",d:"Guitar gangster",i:"$9K/s",p:"$3.7M"},
+{n:"Te Te Te Sahur",r:"mythic",e:"🌙",d:"Moonlight drummer",i:"$9.5K/s",p:"$4M"},
+{n:"Rhino Helicopterino",r:"mythic",e:"🚁",d:"Flying rhino chopper",i:"$11K/s",p:"$4.1M"},
+{n:"Los Noobinis",r:"mythic",e:"🍕",d:"Noob army squad",i:"$12.5K/s",p:"$4.3M"},
+{n:"Elefanto Frigo",r:"mythic",e:"🐘",d:"Fridge elephant hybrid",i:"$14K/s",p:"$4.6M"},
+{n:"Jacko Spaventosa",r:"mythic",e:"🎃",d:"Spooky pumpkin queen",i:"$16.2K/s",p:"$4.8M"},
+{n:"Tree Tree Tree Sahur",r:"mythic",e:"🌲",d:"Forest drummer trio",i:"$17K/s",p:"$4.9M"},
 {n:"Matteo",r:"god",e:"🌳",d:"The tree god himself",i:"$50K/s",p:"$10M"},
-{n:"Tralalero Tralala",r:"god",e:"🎵",d:"The musical maestro",i:"$50K/s",p:"$10M"}
+{n:"Tralalero Tralala",r:"god",e:"🎵",d:"The musical maestro",i:"$50K/s",p:"$10M"},
+{n:"Cocofanto Elefanto",r:"god",e:"🐘",d:"Coconut elephant god",i:"$19K/s",p:"$8M"},
+{n:"Girafa Celestre",r:"god",e:"🦒",d:"Celestial giraffe",i:"$25K/s",p:"$9M"},
+{n:"Gattatino Nyanino",r:"god",e:"🐱",d:"Nyan cat god",i:"$30K/s",p:"$9.5M"},
+{n:"Chihuanini Taconini",r:"god",e:"🌮",d:"Taco chihuahua god",i:"$35K/s",p:"$10M"},
+{n:"Los Crocodillitos",r:"god",e:"🐊",d:"Baby crocodile squad",i:"$55K/s",p:"$11M"},
+{n:"Tigroligre Frutonni",r:"god",e:"🐯",d:"Fruit tiger overlord",i:"$60K/s",p:"$12M"},
+{n:"Money Money Man",r:"god",e:"💰",d:"Cash money god",i:"$65K/s",p:"$17.5M"},
+{n:"Espresso Signora",r:"god",e:"☕",d:"Coffee queen goddess",i:"$70K/s",p:"$15M"},
+{n:"Odin Din Din Dun",r:"god",e:"⚡",d:"Norse thunder god",i:"$75K/s",p:"$16M"},
+{n:"Unclito Samito",r:"god",e:"🎩",d:"Uncle Sam god",i:"$80K/s",p:"$18M"},
+{n:"Tipi Topi Taco",r:"god",e:"🌮",d:"Taco tip-top god",i:"$85K/s",p:"$19M"},
+{n:"Alessio",r:"god",e:"🦁",d:"Lion god warrior",i:"$90K/s",p:"$20M"},
+{n:"Tralalita Tralala",r:"god",e:"🎶",d:"Musical goddess",i:"$100K/s",p:"$22M"},
+{n:"Orcalero Orcala",r:"god",e:"🐋",d:"Orca whale god",i:"$100K/s",p:"$22M"},
+{n:"Tukanno Bananno",r:"god",e:"🐦",d:"Toucan banana god",i:"$100K/s",p:"$225M"},
+{n:"Extinct Ballerina",r:"god",e:"💃",d:"Extinct dancer god",i:"$125K/s",p:"$25M"},
+{n:"Vampira Cappuccina",r:"god",e:"🧛",d:"Vampire coffee goddess",i:"$125K/s",p:"$25M"},
+{n:"Jacko Jack Jack",r:"god",e:"🎃",d:"Pumpkin king god",i:"$150K/s",p:"$28M"},
+{n:"Urubini Flamenguini",r:"god",e:"🔥",d:"Flaming vulture god",i:"$150K/s",p:"$28M"},
+{n:"Trenostruzzo Turbo 3000",r:"god",e:"🚂",d:"Turbo train god",i:"$150K/s",p:"$30M"},
+{n:"Capi Taco",r:"god",e:"🌮",d:"Capitan taco god",i:"$160K/s",p:"$32M"},
+{n:"Los Chihuaninis",r:"god",e:"🐕",d:"Chihuahua army god",i:"$170K/s",p:"$34M"},
+{n:"Divino Platypio",r:"god",e:"🦆",d:"Divine platypus god",i:"$180K/s",p:"$36M"},
+{n:"Gattito Tacoto",r:"god",e:"🐱",d:"Taco cat god",i:"$185K/s",p:"$37M"},
+{n:"Trippi Troppi Troppa Trippa",r:"god",e:"🦐",d:"Mega shrimp god",i:"$185K/s",p:"$37M"},
+{n:"Las Cappuchinas",r:"god",e:"☕",d:"Coffee squad goddess",i:"$185K/s",p:"$38M"},
+{n:"Ballerino Lololo",r:"god",e:"🕺",d:"Dancing boy god",i:"$200K/s",p:"$40M"},
+{n:"Los Tungtungtungcitos",r:"god",e:"🥁",d:"Drum squad god",i:"$210K/s",p:"$37.5M"},
+{n:"Ballerina Peppermintina",r:"god",e:"🍬",d:"Peppermint dancer god",i:"$220K/s",p:"$42M"},
+{n:"Los Bombinitos",r:"god",e:"💣",d:"Baby bomb squad god",i:"$230K/s",p:"$44M"},
+{n:"Piccione Macchina",r:"god",e:"🕊️",d:"Machine pigeon god",i:"$240K/s",p:"$46M"},
+{n:"Bombardini Tortinii",r:"god",e:"💥",d:"Tortilla bomber god",i:"$245K/s",p:"$47M"},
+{n:"Brr es Teh Patipum",r:"god",e:"❄️",d:"Frozen patipum god",i:"$225K/s",p:"$40M"},
+{n:"Tractoro Dinosauro",r:"god",e:"🦕",d:"Tractor dino god",i:"$245K/s",p:"$47M"},
+{n:"Crabbo Limonetta",r:"god",e:"🦀",d:"Lemon crab god",i:"$250K/s",p:"$48M"},
+{n:"Los Orcalitos",r:"god",e:"🐋",d:"Baby orca squad god",i:"$235K/s",p:"$45M"},
+{n:"Cacasito Satalito",r:"god",e:"🪐",d:"Space caca god",i:"$250K/s",p:"$48M"},
+{n:"Orcalita Orcala",r:"god",e:"🐋",d:"Orca goddess",i:"$240K/s",p:"$45M"},
+{n:"Aquanaut",r:"god",e:"🌊",d:"Ocean explorer god",i:"$250K/s",p:"$48M"},
+{n:"Mummy Ambalabu",r:"god",e:"🧟",d:"Mummy doll god",i:"$250K/s",p:"$48M"},
+{n:"Squalanana",r:"god",e:"🦈",d:"Shark banana god",i:"$255K/s",p:"$49M"},
+{n:"Snailenzo",r:"god",e:"🐌",d:"Snail god",i:"$260K/s",p:"$50M"},
+{n:"Tartaruga Cisterna",r:"god",e:"🐢",d:"Tank turtle god",i:"$265K/s",p:"$51M"},
+{n:"Corn Corn Corn Sahur",r:"god",e:"🌽",d:"Corn drummer god",i:"$270K/s",p:"$52M"},
+{n:"Ginger Globo",r:"god",e:"🫚",d:"Ginger globe god",i:"$275K/s",p:"$53M"},
+{n:"Yeti Claus",r:"god",e:"🎅",d:"Christmas yeti god",i:"$280K/s",p:"$54M"},
+{n:"Los Tipi Tacos",r:"god",e:"🌮",d:"Taco squad god",i:"$285K/s",p:"$55M"},
+{n:"Granchiello Spiritell",r:"god",e:"👻",d:"Ghost crab god",i:"$280K/s",p:"$54M"},
+{n:"Tootini Shrimpini",r:"god",e:"🦐",d:"Toot shrimp god",i:"$282K/s",p:"$54.5M"},
+{n:"Frio Ninja",r:"god",e:"🥷",d:"Ice ninja god",i:"$285K/s",p:"$55M"},
+{n:"Piccionetta Machina",r:"god",e:"🕊️",d:"Machine pigeon goddess",i:"$270K/s",p:"$47M"},
+{n:"Bunny Tralala",r:"god",e:"🐰",d:"Bunny music god",i:"$275K/s",p:"$53M"},
+{n:"Boba Panda",r:"god",e:"🐼",d:"Boba tea panda god",i:"$278K/s",p:"$53.5M"},
+{n:"Bambu Bambu Sahur",r:"god",e:"🎋",d:"Bamboo drummer god",i:"$280K/s",p:"$54M"},
+{n:"Mastodontico Telepiedone",r:"god",e:"🦣",d:"Mastodon phone god",i:"$282K/s",p:"$54.5M"},
+{n:"Los Gattitos",r:"god",e:"🐱",d:"Cat squad god",i:"$285K/s",p:"$55M"},
+{n:"Chrismasmamat",r:"god",e:"🎄",d:"Christmas mama god",i:"$287K/s",p:"$55.5M"},
+{n:"Anpali Babel",r:"god",e:"🏛️",d:"Babel tower god",i:"$280K/s",p:"$48M"},
+{n:"Noo La Polizia",r:"god",e:"👮",d:"Police god",i:"$280K/s",p:"$67M"},
+{n:"Astrolero Cervalero",r:"god",e:"🌟",d:"Astro deer god",i:"$287K/s",p:"$56M"},
+{n:"Luv Luv Luv",r:"god",e:"❤️",d:"Love love god",i:"$287K/s",p:"$56M"},
+{n:"Cappuccino Clownino",r:"god",e:"🤡",d:"Clown coffee god",i:"$287K/s",p:"$56M"},
+{n:"Brasilini Berimbini",r:"god",e:"🇧🇷",d:"Brazil berimbau god",i:"$287K/s",p:"$56M"},
+{n:"Patteo",r:"god",e:"🐾",d:"Paw god",i:"$287K/s",p:"$56M"},
+{n:"Belula Beluga",r:"god",e:"🐋",d:"Beluga whale god",i:"$290K/s",p:"$60M"},
+{n:"Krupuk Pagi Pagi",r:"god",e:"🍤",d:"Morning krupuk god",i:"$290K/s",p:"$60M"},
+{n:"Skull Skull Skull",r:"god",e:"💀",d:"Triple skull god",i:"$290K/s",p:"$60M"},
+{n:"Cocoa Assassino",r:"god",e:"🍫",d:"Cocoa killer god",i:"$290K/s",p:"$60M"},
+{n:"Tentacolo Tecnico",r:"god",e:"🐙",d:"Tech tentacle god",i:"$290K/s",p:"$60M"},
+{n:"Ginger Cisterna",r:"god",e:"🫚",d:"Ginger tank god",i:"$290K/s",p:"$60M"},
+{n:"Pandanini Frostini",r:"god",e:"🍧",d:"Frozen panda god",i:"$290K/s",p:"$60M"},
+{n:"Dolphini Jetskini",r:"god",e:"🐬",d:"Jet ski dolphin god",i:"$294K/s",p:"$61M"},
+{n:"Pop Pop Sahur",r:"god",e:"🍿",d:"Popcorn drummer god",i:"$295K/s",p:"$61.5M"},
+{n:"Karkerheart Luvkur",r:"god",e:"💘",d:"Heart karker god",i:"$295K/s",p:"$61.5M"},
+{n:"Clovkur Kurkur",r:"god",e:"🍀",d:"Clover karker god",i:"$295K/s",p:"$61.5M"},
+{n:"Eggdin Egg Egg Dun",r:"god",e:"🥚",d:"Egg thunder god",i:"$295K/s",p:"$61.5M"},
+{n:"Dumborino Miracello",r:"god",e:"🎪",d:"Miracle dumbo god",i:"$315K/s",p:"$65M"},
+{n:"La Vacca Saturno Saturnita",r:"secret",e:"🪐",d:"Saturn cow secret",i:"$300K/s",p:"$50M"},
+{n:"Bisonte Giuppitere",r:"secret",e:"🦬",d:"Jupiter bison secret",i:"$300K/s",p:"$75M"},
+{n:"Sammyni Spyderini",r:"secret",e:"🕷️",d:"Spider Sammy secret",i:"$325K/s",p:"$75M"},
+{n:"Blackhole Goat",r:"secret",e:"🐐",d:"Blackhole goat secret",i:"$400K/s",p:"$75M"},
+{n:"Pretzo Robo",r:"secret",e:"🤖",d:"Pretzel robot secret",i:"$320K/s",p:"$77M"},
+{n:"Jackorilla",r:"secret",e:"🦍",d:"Jack gorilla secret",i:"$315K/s",p:"$80M"},
+{n:"Karkerkar Kurkur",r:"secret",e:"💀",d:"Karker skull secret",i:"$325K/s",p:"$80M"},
+{n:"Agarrini La Palini",r:"secret",e:"🌴",d:"Palm grabber secret",i:"$425K/s",p:"$80M"},
+{n:"Chachechi",r:"secret",e:"🎭",d:"Chachechi secret",i:"$400K/s",p:"$85M"},
+{n:"Trenostruzzo Turbo 4000",r:"secret",e:"🚂",d:"Turbo ostrich secret",i:"$335K/s",p:"$90M"},
+{n:"Chimpanzini Spiderini",r:"secret",e:"🐒",d:"Spider monkey secret",i:"$325K/s",p:"$100M"},
+{n:"Los Matteos",r:"secret",e:"🌳",d:"Matteo squad secret",i:"$300K/s",p:"$100M"},
+{n:"Los Tortus",r:"secret",e:"🐢",d:"Turtle squad secret",i:"$500K/s",p:"$100M"},
+{n:"Los Tralaleritos",r:"secret",e:"🎵",d:"Tralala squad secret",i:"$500K/s",p:"$100M"},
+{n:"La Vacca Jacko Linterino",r:"secret",e:"🐄",d:"Jacko cow secret",i:"$850K/s",p:"$225M"},
+{n:"GOAT",r:"secret",e:"🐐",d:"The GOAT secret",i:"$950K/s",p:"$237.6M"},
+{n:"Giftini Spyderini",r:"secret",e:"🎁",d:"Gift spider secret",i:"$999.9K/s",p:"$240M"},
+{n:"Love Love Love Sahur",r:"secret",e:"❤️",d:"Love drummer secret",i:"$1M/s",p:"$250M"},
+{n:"Graipuss Medussi",r:"secret",e:"🐙",d:"Grape medusa secret",i:"$1M/s",p:"$250M"},
+{n:"Perrito Burrito",r:"secret",e:"🌯",d:"Dog burrito secret",i:"$1M/s",p:"$250M"},
+{n:"Bombardiro Vaccariro",r:"secret",e:"💣",d:"Vaccine bomber secret",i:"$1M/s",p:"$255M"},
+{n:"1x1x1x1",r:"secret",e:"👾",d:"Hacker secret",i:"$1.1M/s",p:"$255.5M"},
+{n:"Easter Easter Easter Sahur",r:"secret",e:"🐣",d:"Easter drummer secret",i:"$1.2M/s",p:"$300M"},
+{n:"Please my Present",r:"secret",e:"🎁",d:"Present beg secret",i:"$1.3M/s",p:"$350M"},
+{n:"Berryno",r:"secret",e:"🫐",d:"Berry secret",i:"$1.5M/s",p:"$500M"},
+{n:"Bunnyman",r:"secret",e:"🐰",d:"Bunny man secret",i:"$1.5M/s",p:"$500M"},
+{n:"Tung Tung Tung Sahur",r:"secret",e:"🥁",d:"Tung tung drummer secret",i:"$1.5M/s",p:"$500M"},
+{n:"Nooo My Hotspot",r:"secret",e:"📶",d:"Hotspot secret",i:"$1.5M/s",p:"$500M"},
+{n:"John Doe",r:"secret",e:"👤",d:"John Doe secret",i:"$7.5M/s",p:"$1.2B"},
+{n:"Guest 666",r:"secret",e:"👾",d:"Guest 666 secret",i:"$66.6M/s",p:"$15.6B"}
 ];
-const rc={common:'#00f3ff',rare:'#39ff14',epic:'#bf00ff',legendary:'#ff6600',mythic:'#ff1493',god:'#ffff00'};
-const rn={common:'Common',rare:'Rare',epic:'Epic',legendary:'Legendary',mythic:'Mythic',god:'Brainrot God'};
+const rc={common:'#00f3ff',rare:'#39ff14',epic:'#bf00ff',legendary:'#ff6600',mythic:'#ff1493',god:'#ffff00',secret:'#ff0040'};
+const rn={common:'Common',rare:'Rare',epic:'Epic',legendary:'Legendary',mythic:'Mythic',god:'Brainrot God',secret:'Secret'};
 function mkCard(x,idx){
 const c=document.createElement('div');c.className='card '+x.r;c.style.cssText='--c:'+rc[x.r]+';--c2:'+rc[x.r]+'40;animation-delay:'+(idx*.04)+'s';c.dataset.r=x.r;
 c.innerHTML='<div class="badge" style="background:'+rc[x.r]+'15;color:'+rc[x.r]+';border:1px solid '+rc[x.r]+'40">'+rn[x.r]+'</div><div class="emoji">'+x.e+'</div><div class="name">'+x.n+'</div><div class="desc">'+x.d+'</div><div class="srow"><div class="s"><small>Income</small><span>'+x.i+'</span></div><div class="s"><small>Price</small><span>'+x.p+'</span></div></div><div class="hint">Click to Claim</div>';
